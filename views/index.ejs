@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Upload Files</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <style>
+        img {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+
+
+    <div class="container">
+        <div class="col-md-6 m-auto">
+            <h1 class="text-center display-4 my-4">Upload File</h1>
+            <form action="/upload" method="POST" enctype="multipart/form-data">
+                <div class="custom-file mb-3">
+                    <input type="file" name="file" id="file" class="custom-file-input">
+                    <label for="file" class="custom-file-label">Choose File</label>
+                </div>
+                <div style="float: right">
+                    <button type="submit" class="btn btn-primary ml-8">Submit</button>
+                </div>
+
+            </form>
+        </div>
+        <div style="margin-top: 56px;">
+            <hr>
+            <% if(files){%>
+                <div class="row">
+                    <% files.forEach(function(file){ %>
+
+                        <div class="card card-body mb-3 col-md-3">
+                            <div style="height: 200px;">
+                                <% if(file.isImage){ %>
+                                    <img src="image/<%=file.filename%>" alt="">
+                                    <%}else{%>
+                                        <%= file.filename %>
+                                            <%}%>
+                            </div>
+                            <div class="row mt-2">
+                                <form method="GET" action="/image/<%= file.filename%>">
+                                    <div class="mt-2" style="margin-left: 66px;">
+                                        <button type="submit" class="btn btn-primary mr-2 ml-3">Download</button>
+                                    </div>
+                                </form>
+                                <form method="POST" action="/file/<%= file._id%>?_method=DELETE">
+                                    <div class="mt-2" style="margin-left: 2px;">
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+
+
+                        <%}) %>
+                </div>
+                <%}else{ %>
+                    <p>No Files to Show</p>
+                    <% } %>
+        </div>
+
+
+    </div>
+</body>
+
+</html>
